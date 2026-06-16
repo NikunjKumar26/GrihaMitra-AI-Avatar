@@ -120,10 +120,11 @@
     display: none !important;
   }
 
-  /* Hide the system label and bottom logout on mobile */
-  .menu-label, .logout-menu-item {
+  /* Hide the system label, footer and bottom logout on mobile */
+  .menu-label, .logout-menu-item, .sidebar-footer {
     display: none !important;
   }
+
 
   /* Style items cleanly into horizontal chips */
   .menu-item {

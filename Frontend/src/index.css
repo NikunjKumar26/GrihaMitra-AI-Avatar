@@ -61,15 +61,20 @@ body {
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
+  height: 100vh;
+  max-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .sidebar h2.sidebar-brand {
-  margin: 0 0 1rem 0;
+  margin: 0;
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
   gap: 12px !important;
+  flex-shrink: 0;
 }
 
 .brand-text {
@@ -88,7 +93,33 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
 }
+
+/* Custom premium scrollbar for sidebar menu */
+.sidebar-menu::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar-menu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1rem;
+  flex-shrink: 0;
+}
+
 
 .menu-label {
   font-size: 0.75rem;

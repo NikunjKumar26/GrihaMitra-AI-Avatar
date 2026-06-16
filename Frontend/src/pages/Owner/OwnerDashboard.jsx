@@ -11,7 +11,7 @@ import AvatarDashboard from '../AvatarDashboard';
 const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout, user, latestNotification, socket }) => {
   const navigate = useNavigate();
   const [history, setHistory] = useState([]);
-  const [activeTab, setActiveTab] = useState('architecture');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [currentRoomId, setCurrentRoomId] = useState(null);
   const activeRoom = homeInfo?.rooms?.find(r => r._id === currentRoomId);
   const [showAccessCode, setShowAccessCode] = useState(false);
@@ -629,18 +629,31 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
         </div>
         <div className="sidebar-menu">
           <p className="menu-label">Main Menu</p>
-          <div className={`menu-item ${activeTab === 'architecture' ? 'active' : ''}`} onClick={() => setActiveTab('architecture')}>
-            <span style={{ marginLeft: '10px' }}>System Architecture</span>
-          </div>
           <div className={`menu-item ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
-            <span style={{ marginLeft: '10px' }}>Dashboard</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', verticalAlign: 'middle', opacity: 0.8 }}>
+              <rect x="3" y="3" width="7" height="9"></rect>
+              <rect x="14" y="3" width="7" height="5"></rect>
+              <rect x="14" y="12" width="7" height="9"></rect>
+              <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
+            <span>Dashboard</span>
           </div>
 
           {/* AI Companion Submenu */}
           <div className="submenu-container">
             <div className="submenu-header" onClick={() => toggleSubmenu('companion')}>
-              <span className="submenu-header-text">🤖 AI Companion</span>
-              <span className={`submenu-arrow ${expandedMenus.companion ? 'open' : ''}`}>▶</span>
+              <span className="submenu-header-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', verticalAlign: 'middle', opacity: 0.8 }}>
+                  <path d="M12 2v2M8 5a4 4 0 0 1 8 0M3 11a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8z"></path>
+                  <circle cx="9" cy="14" r="1" fill="currentColor"></circle>
+                  <circle cx="15" cy="14" r="1" fill="currentColor"></circle>
+                  <path d="M9 18h6"></path>
+                </svg>
+                AI Companion
+              </span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={`submenu-arrow ${expandedMenus.companion ? 'open' : ''}`} style={{ transition: 'transform 0.3s ease' }}>
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
             </div>
             {expandedMenus.companion && (
               <div className="submenu-items">
@@ -667,8 +680,17 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
           {/* AI Intelligence Submenu */}
           <div className="submenu-container">
             <div className="submenu-header" onClick={() => toggleSubmenu('intelligence')}>
-              <span className="submenu-header-text">🧠 AI Intelligence</span>
-              <span className={`submenu-arrow ${expandedMenus.intelligence ? 'open' : ''}`}>▶</span>
+              <span className="submenu-header-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', verticalAlign: 'middle', opacity: 0.8 }}>
+                  <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+                  <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+                  <path d="M12 5v14" />
+                </svg>
+                AI Intelligence
+              </span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={`submenu-arrow ${expandedMenus.intelligence ? 'open' : ''}`} style={{ transition: 'transform 0.3s ease' }}>
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
             </div>
             {expandedMenus.intelligence && (
               <div className="submenu-items">
@@ -688,8 +710,17 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
           {/* Activity & Event Logs Submenu */}
           <div className="submenu-container">
             <div className="submenu-header" onClick={() => toggleSubmenu('logs')}>
-              <span className="submenu-header-text">📊 Logs & History</span>
-              <span className={`submenu-arrow ${expandedMenus.logs ? 'open' : ''}`}>▶</span>
+              <span className="submenu-header-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', verticalAlign: 'middle', opacity: 0.8 }}>
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                Logs & History
+              </span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={`submenu-arrow ${expandedMenus.logs ? 'open' : ''}`} style={{ transition: 'transform 0.3s ease' }}>
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
             </div>
             {expandedMenus.logs && (
               <div className="submenu-items">
@@ -706,8 +737,16 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
           {/* Manage Space Submenu */}
           <div className="submenu-container">
             <div className="submenu-header" onClick={() => toggleSubmenu('manage')}>
-              <span className="submenu-header-text">⚙️ Manage Space</span>
-              <span className={`submenu-arrow ${expandedMenus.manage ? 'open' : ''}`}>▶</span>
+              <span className="submenu-header-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', verticalAlign: 'middle', opacity: 0.8 }}>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                Manage Space
+              </span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className={`submenu-arrow ${expandedMenus.manage ? 'open' : ''}`} style={{ transition: 'transform 0.3s ease' }}>
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
             </div>
             {expandedMenus.manage && (
               <div className="submenu-items">
@@ -734,10 +773,17 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
               </div>
             )}
           </div>
-          
-          <p className="menu-label" style={{ marginTop: 'auto' }}>System</p>
-          <div className="menu-item logout-menu-item" onClick={handleLogout}>
-            <span style={{ marginLeft: '10px' }}>Log out</span>
+        </div>
+
+        <div className="sidebar-footer">
+          <p className="menu-label" style={{ margin: '0 0 0.5rem 0' }}>System</p>
+          <div className="menu-item logout-menu-item" onClick={handleLogout} style={{ display: 'flex', alignItems: 'center' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '10px', verticalAlign: 'middle', opacity: 0.8 }}>
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Log out</span>
           </div>
         </div>
       </div>
