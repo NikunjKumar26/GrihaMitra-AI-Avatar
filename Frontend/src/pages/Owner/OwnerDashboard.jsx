@@ -21,6 +21,33 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const [tempAccessibleRooms, setTempAccessibleRooms] = useState([]);
   const [roomTemp, setRoomTemp] = useState(null);
 
+  const [expandedMenus, setExpandedMenus] = useState({
+    companion: false,
+    intelligence: false,
+    logs: false,
+    manage: false
+  });
+
+  const toggleSubmenu = (menu) => {
+    setExpandedMenus(prev => ({
+      ...prev,
+      [menu]: !prev[menu]
+    }));
+  };
+
+  useEffect(() => {
+    if (['avatar_dashboard', 'voice_dashboard', 'chat'].includes(activeTab)) {
+      setExpandedMenus(prev => ({ ...prev, companion: true }));
+    } else if (['family_intel', 'automation', 'explainability'].includes(activeTab)) {
+      setExpandedMenus(prev => ({ ...prev, intelligence: true }));
+    } else if (['notifications', 'event_history'].includes(activeTab)) {
+      setExpandedMenus(prev => ({ ...prev, logs: true }));
+    } else if (['members', 'join_requests', 'add_room'].includes(activeTab)) {
+      setExpandedMenus(prev => ({ ...prev, manage: true }));
+    }
+  }, [activeTab]);
+
+
   // Phase 1 - AI Event History & Analytics States
   const [eventHistory, setEventHistory] = useState([]);
   const [analytics, setAnalytics] = useState(null);
@@ -608,57 +635,105 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
           <div className={`menu-item ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
             <span style={{ marginLeft: '10px' }}>Dashboard</span>
           </div>
-          <div className={`menu-item ${activeTab === 'members' ? 'active' : ''}`} onClick={() => { setActiveTab('members'); fetchFamilyMembers(); }}>
-            <span style={{ marginLeft: '10px' }}>Household Members</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'family_intel' ? 'active' : ''}`} onClick={() => setActiveTab('family_intel')}>
-            <span style={{ marginLeft: '10px' }}>AI Intelligence</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'notifications' ? 'active' : ''}`} onClick={() => setActiveTab('notifications')}>
-            <span style={{ marginLeft: '10px' }}>Activity Log</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'event_history' ? 'active' : ''}`} onClick={() => setActiveTab('event_history')}>
-            <span style={{ marginLeft: '10px' }}>AI Event History</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'automation' ? 'active' : ''}`} onClick={() => setActiveTab('automation')}>
-            <span style={{ marginLeft: '10px' }}>Predictive Automation</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'explainability' ? 'active' : ''}`} onClick={() => setActiveTab('explainability')}>
-            <span style={{ marginLeft: '10px' }}>AI Explainability</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'voice_dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('voice_dashboard')}>
-            <span style={{ marginLeft: '10px' }}>AI Voice Assistant</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'avatar_dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('avatar_dashboard')}>
-            <span style={{ marginLeft: '10px' }}>GrihaMitra AI Avatar</span>
-          </div>
-          <div className={`menu-item ${activeTab === 'chat' ? 'active' : ''}`} onClick={() => { setActiveTab('chat'); setUnreadChatCount(0); }}>
-            <span style={{ marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              Home Chat
-              {unreadChatCount > 0 && (
-                <span style={{ background: '#FF3333', color: '#FFF', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '10px', fontWeight: 'bold', boxShadow: '0 0 10px rgba(255,50,50,0.5)' }}>
-                  {unreadChatCount}
-                </span>
-              )}
-            </span>
-          </div>
-          {user.role === 'Owner' && (
-            <>
-              <div className={`menu-item ${activeTab === 'join_requests' ? 'active' : ''}`} onClick={() => setActiveTab('join_requests')}>
-                <span style={{ marginLeft: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  Join Requests
-                  {pendingRequestsCount > 0 && (
-                    <span style={{ background: '#44FF44', color: '#000', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '10px', fontWeight: 'bold', boxShadow: '0 0 10px rgba(68,255,68,0.5)' }}>
-                      {pendingRequestsCount}
-                    </span>
-                  )}
-                </span>
+
+          {/* AI Companion Submenu */}
+          <div className="submenu-container">
+            <div className="submenu-header" onClick={() => toggleSubmenu('companion')}>
+              <span className="submenu-header-text">🤖 AI Companion</span>
+              <span className={`submenu-arrow ${expandedMenus.companion ? 'open' : ''}`}>▶</span>
+            </div>
+            {expandedMenus.companion && (
+              <div className="submenu-items">
+                <div className={`submenu-item ${activeTab === 'avatar_dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('avatar_dashboard')}>
+                  <span>GrihaMitra AI Avatar</span>
+                </div>
+                <div className={`submenu-item ${activeTab === 'voice_dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('voice_dashboard')}>
+                  <span>AI Voice Assistant</span>
+                </div>
+                <div className={`submenu-item ${activeTab === 'chat' ? 'active' : ''}`} onClick={() => { setActiveTab('chat'); setUnreadChatCount(0); }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    Home Chat
+                    {unreadChatCount > 0 && (
+                      <span style={{ background: '#FF3333', color: '#FFF', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '10px', fontWeight: 'bold', boxShadow: '0 0 10px rgba(255,50,50,0.5)' }}>
+                        {unreadChatCount}
+                      </span>
+                    )}
+                  </span>
+                </div>
               </div>
-              <div className={`menu-item ${activeTab === 'add_room' ? 'active' : ''}`} onClick={() => setActiveTab('add_room')}>
-                <span style={{ marginLeft: '10px' }}>Set Up New Room</span>
+            )}
+          </div>
+
+          {/* AI Intelligence Submenu */}
+          <div className="submenu-container">
+            <div className="submenu-header" onClick={() => toggleSubmenu('intelligence')}>
+              <span className="submenu-header-text">🧠 AI Intelligence</span>
+              <span className={`submenu-arrow ${expandedMenus.intelligence ? 'open' : ''}`}>▶</span>
+            </div>
+            {expandedMenus.intelligence && (
+              <div className="submenu-items">
+                <div className={`submenu-item ${activeTab === 'family_intel' ? 'active' : ''}`} onClick={() => setActiveTab('family_intel')}>
+                  <span>Intelligence Profiles</span>
+                </div>
+                <div className={`submenu-item ${activeTab === 'automation' ? 'active' : ''}`} onClick={() => setActiveTab('automation')}>
+                  <span>Predictive Automation</span>
+                </div>
+                <div className={`submenu-item ${activeTab === 'explainability' ? 'active' : ''}`} onClick={() => setActiveTab('explainability')}>
+                  <span>Explainability Dashboard</span>
+                </div>
               </div>
-            </>
-          )}
+            )}
+          </div>
+
+          {/* Activity & Event Logs Submenu */}
+          <div className="submenu-container">
+            <div className="submenu-header" onClick={() => toggleSubmenu('logs')}>
+              <span className="submenu-header-text">📊 Logs & History</span>
+              <span className={`submenu-arrow ${expandedMenus.logs ? 'open' : ''}`}>▶</span>
+            </div>
+            {expandedMenus.logs && (
+              <div className="submenu-items">
+                <div className={`submenu-item ${activeTab === 'notifications' ? 'active' : ''}`} onClick={() => setActiveTab('notifications')}>
+                  <span>Activity Log</span>
+                </div>
+                <div className={`submenu-item ${activeTab === 'event_history' ? 'active' : ''}`} onClick={() => setActiveTab('event_history')}>
+                  <span>AI Event History</span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Manage Space Submenu */}
+          <div className="submenu-container">
+            <div className="submenu-header" onClick={() => toggleSubmenu('manage')}>
+              <span className="submenu-header-text">⚙️ Manage Space</span>
+              <span className={`submenu-arrow ${expandedMenus.manage ? 'open' : ''}`}>▶</span>
+            </div>
+            {expandedMenus.manage && (
+              <div className="submenu-items">
+                <div className={`submenu-item ${activeTab === 'members' ? 'active' : ''}`} onClick={() => { setActiveTab('members'); fetchFamilyMembers(); }}>
+                  <span>Household Members</span>
+                </div>
+                {user.role === 'Owner' && (
+                  <>
+                    <div className={`submenu-item ${activeTab === 'join_requests' ? 'active' : ''}`} onClick={() => setActiveTab('join_requests')}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        Join Requests
+                        {pendingRequestsCount > 0 && (
+                          <span style={{ background: '#44FF44', color: '#000', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '10px', fontWeight: 'bold', boxShadow: '0 0 10px rgba(68,255,68,0.5)' }}>
+                            {pendingRequestsCount}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div className={`submenu-item ${activeTab === 'add_room' ? 'active' : ''}`} onClick={() => setActiveTab('add_room')}>
+                      <span>Set Up New Room</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
           
           <p className="menu-label" style={{ marginTop: 'auto' }}>System</p>
           <div className="menu-item logout-menu-item" onClick={handleLogout}>
