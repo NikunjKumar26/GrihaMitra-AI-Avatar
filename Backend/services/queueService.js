@@ -24,8 +24,19 @@ let isRedisOffline = false;
 
 // 1. Initialize Redis connection
 try {
+  const isLocalFallback = !process.env.REDIS_URL && (!process.env.REDIS_HOST || process.env.REDIS_HOST === '127.0.0.1');
+
   const redisOptions = {
-    maxRetriesPerRequest: null // Required by BullMQ
+    maxRetriesPerRequest: null, // Required by BullMQ
+    retryStrategy(times) {
+      if (isLocalFallback) {
+        return null; // Stop retrying immediately if local fallback is offline
+      }
+      if (times > 10) {
+        return null; // Stop retrying after 10 attempts for custom cloud Redis
+      }
+      return 2000; // Retry after 2 seconds
+    }
   };
 
   if (process.env.REDIS_URL) {
