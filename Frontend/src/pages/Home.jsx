@@ -253,7 +253,16 @@ const Home = () => {
       {/* Navigation Bar */}
       <nav className="landing-nav">
         <div className="footer-logo">
-          <div style={{ fontSize: '1.8rem', textShadow: '0 0 15px rgba(234, 235, 114, 0.4)' }}>🏡</div>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="url(#yellowGradientLanding)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 12px rgba(234, 235, 114, 0.6))' }}>
+            <defs>
+              <linearGradient id="yellowGradientLanding" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" />
+                <stop offset="100%" stopColor="#EAEB72" />
+              </linearGradient>
+            </defs>
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
           <span className="brand-text">Sapno Ka Ghar</span>
         </div>
         
@@ -506,6 +515,16 @@ const Home = () => {
             © 2026 Sapno Ka Ghar. All rights reserved.
           </div>
           <div className="footer-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#yellowGradientFooter)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 10px rgba(234, 235, 114, 0.5))' }}>
+              <defs>
+                <linearGradient id="yellowGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="100%" stopColor="#EAEB72" />
+                </linearGradient>
+              </defs>
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
             <span className="footer-logo-text">Sapno Ka Ghar</span>
           </div>
         </div>
