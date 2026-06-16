@@ -39,14 +39,9 @@ try {
   }
 
   connection.on('error', (err) => {
-    if (process.env.NODE_ENV === 'production') {
-      console.error('CRITICAL [BullMQ Config] Redis connection failed in PRODUCTION mode. Blocking initialization:', err.message);
-      process.exit(1);
-    } else {
-      if (!isRedisOffline) {
-        console.warn('⚠️ [BullMQ Config] Redis is offline. Operating in synchronous fallback mode:', err.message);
-        isRedisOffline = true;
-      }
+    if (!isRedisOffline) {
+      console.warn('⚠️ [BullMQ Config] Redis connection failed. Operating in synchronous fallback mode:', err.message);
+      isRedisOffline = true;
     }
   });
   connection.on('connect', () => {
@@ -54,10 +49,6 @@ try {
     isRedisOffline = false;
   });
 } catch (err) {
-  if (process.env.NODE_ENV === 'production') {
-    console.error('CRITICAL [BullMQ Config] Failed to initialize Redis in PRODUCTION mode. Blocking initialization:', err.message);
-    process.exit(1);
-  }
   console.warn('⚠️ [BullMQ Config] Failed to initialize Redis. Operating in synchronous fallback mode:', err.message);
   isRedisOffline = true;
 }
