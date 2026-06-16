@@ -67,6 +67,16 @@ const pollyQueue = connection ? new Queue('PollyGeneration', { connection }) : n
 const analyticsQueue = connection ? new Queue('VoiceAnalytics', { connection }) : null;
 const avatarQueue = connection ? new Queue('FutureAvatar', { connection }) : null;
 
+const handleQueueError = (name) => (err) => {
+  console.warn(`⚠️ [BullMQ Config] Queue ${name} connection failed:`, err.message);
+};
+
+if (sttQueue) sttQueue.on('error', handleQueueError('SpeechToText'));
+if (bedrockQueue) bedrockQueue.on('error', handleQueueError('BedrockProcessing'));
+if (pollyQueue) pollyQueue.on('error', handleQueueError('PollyGeneration'));
+if (analyticsQueue) analyticsQueue.on('error', handleQueueError('VoiceAnalytics'));
+if (avatarQueue) avatarQueue.on('error', handleQueueError('FutureAvatar'));
+
 const getQueueObject = (queueName) => {
   if (queueName === 'SpeechToText') return sttQueue;
   if (queueName === 'BedrockProcessing') return bedrockQueue;
@@ -503,7 +513,11 @@ const processAnalytics = async (data, ioInstance) => {
 
 // 4. Initialize BullMQ Workers (only if Redis is available)
 if (connection) {
-  new Worker('SpeechToText', async (job) => {
+  const handleWorkerError = (name) => (err) => {
+    console.warn(`⚠️ [BullMQ Config] Worker ${name} connection failed:`, err.message);
+  };
+
+  const sttWorker = new Worker('SpeechToText', async (job) => {
     const start = Date.now();
     try {
       const result = await processSTT(job.data);
@@ -518,8 +532,9 @@ if (connection) {
       jobEvents.emit(`failed:${job.data.correlationId}`, err);
     }
   }, { connection });
+  sttWorker.on('error', handleWorkerError('SpeechToText'));
 
-  new Worker('BedrockProcessing', async (job) => {
+  const bedrockWorker = new Worker('BedrockProcessing', async (job) => {
     const start = Date.now();
     try {
       const result = await processBedrock(job.data);
@@ -534,8 +549,9 @@ if (connection) {
       jobEvents.emit(`failed:${job.data.correlationId}`, err);
     }
   }, { connection });
+  bedrockWorker.on('error', handleWorkerError('BedrockProcessing'));
 
-  new Worker('PollyGeneration', async (job) => {
+  const pollyWorker = new Worker('PollyGeneration', async (job) => {
     const start = Date.now();
     try {
       const result = await processPolly(job.data);
@@ -550,8 +566,9 @@ if (connection) {
       jobEvents.emit(`failed:${job.data.correlationId}`, err);
     }
   }, { connection });
+  pollyWorker.on('error', handleWorkerError('PollyGeneration'));
 
-  new Worker('VoiceAnalytics', async (job) => {
+  const analyticsWorker = new Worker('VoiceAnalytics', async (job) => {
     const start = Date.now();
     try {
       const ioInstance = global.ioInstance;
@@ -564,6 +581,7 @@ if (connection) {
       jobEvents.emit(`failed:${job.data.correlationId}`, err);
     }
   }, { connection });
+  analyticsWorker.on('error', handleWorkerError('VoiceAnalytics'));
 }
 
 /**
