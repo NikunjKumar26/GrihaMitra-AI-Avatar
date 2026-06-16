@@ -36,7 +36,7 @@ const HomeChat = ({ socket, homeInfo, user }) => {
   const fetchChatHistory = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/${homeInfo._id}/chat`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/${homeInfo._id}/chat`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -69,7 +69,7 @@ const HomeChat = ({ socket, homeInfo, user }) => {
     setIsClearing(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/${homeInfo._id}/chat`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/${homeInfo._id}/chat`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

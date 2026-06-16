@@ -23,7 +23,7 @@ const AdminDashboard = () => {
     try {
       const token = localStorage.getItem('token');
       const endpoint = user.role === 'Admin' ? '/api/auth/pending' : '/api/home/pending';
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}${endpoint}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}${endpoint}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -38,7 +38,7 @@ const AdminDashboard = () => {
     try {
       const token = localStorage.getItem('token');
       const endpoint = user.role === 'Admin' ? `/api/auth/verify/${userId}` : `/api/home/approve/${userId}`;
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}${endpoint}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}${endpoint}`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
     try {
       if (user.role === 'Admin') return; // Only Owners reject explicitly here
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/reject/${userId}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/reject/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

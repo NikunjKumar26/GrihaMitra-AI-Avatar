@@ -24,7 +24,7 @@ const FamilyIntelligence = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/dashboard`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/dashboard`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const resData = await res.json();
@@ -49,7 +49,7 @@ const FamilyIntelligence = () => {
       setTrainingLoading(true);
       setTrainingStatus(null);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/train`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/train`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -80,7 +80,7 @@ const FamilyIntelligence = () => {
     try {
       setTrainingLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/generate-routines`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/generate-routines`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -107,7 +107,7 @@ const FamilyIntelligence = () => {
       setPredictionLoading(true);
       setPredictionResult(null);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/predict-next`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/predict-next`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

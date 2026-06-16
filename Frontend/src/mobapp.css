@@ -22,6 +22,10 @@
     overflow-y: auto !important;
     overflow-x: hidden !important;
     background: var(--bg-base) !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
   }
 
   .mobile-logout-btn {

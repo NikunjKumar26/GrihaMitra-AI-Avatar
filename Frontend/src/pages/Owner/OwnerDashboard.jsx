@@ -11,7 +11,7 @@ import AvatarDashboard from '../AvatarDashboard';
 const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout, user, latestNotification, socket }) => {
   const navigate = useNavigate();
   const [history, setHistory] = useState([]);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('architecture');
   const [currentRoomId, setCurrentRoomId] = useState(null);
   const activeRoom = homeInfo?.rooms?.find(r => r._id === currentRoomId);
   const [showAccessCode, setShowAccessCode] = useState(false);
@@ -47,7 +47,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
       setSelectedMemberSummaryLoading(true);
       const token = localStorage.getItem('token');
       
-      const contextRes = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${memberId}`, {
+      const contextRes = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${memberId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const contextData = await contextRes.json();
@@ -55,7 +55,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
         setSelectedMemberContext(contextData);
       }
 
-      const summaryRes = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/summary/${memberId}`, {
+      const summaryRes = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/summary/${memberId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const summaryData = await summaryRes.json();
@@ -74,7 +74,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
     try {
       setHistLoading(true);
       const token = localStorage.getItem('token');
-      let url = `${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/history/home/${homeInfo._id}?page=${histPage}&limit=10`;
+      let url = `${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/history/home/${homeInfo._id}?page=${histPage}&limit=10`;
       if (histRoomId) url += `&roomId=${histRoomId}`;
       if (histDeviceId) url += `&deviceId=${histDeviceId}`;
       if (histUserId) url += `&userId=${histUserId}`;
@@ -101,7 +101,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
     try {
       setAnalyticsLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/history/analytics/${homeInfo._id}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/history/analytics/${homeInfo._id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -178,7 +178,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const fetchFamilyMembers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -228,8 +228,8 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
       const token = localStorage.getItem('token');
       const method = profileModal.type === 'edit' ? 'PUT' : 'POST';
       const url = profileModal.type === 'edit' 
-        ? `${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members/${profileModal.memberId}`
-        : `${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members`;
+        ? `${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members/${profileModal.memberId}`
+        : `${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members`;
 
       const bodyData = {
         name: profileModal.name,
@@ -287,7 +287,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
     if (!window.confirm('Are you sure you want to delete this family member profile?')) return;
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members/${memberId}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/members/${memberId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -305,7 +305,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const handleSaveMemberRooms = async (memberId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/member/${memberId}/rooms`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/member/${memberId}/rooms`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ roomIds: tempAccessibleRooms })
@@ -408,7 +408,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
     try {
       setIsSubmitting(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/room`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/room`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(newRoom)
@@ -440,7 +440,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const fetchHistory = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/notifications`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/notifications`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -456,7 +456,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const handleClearNotifications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/notifications/clear`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/notifications/clear`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -469,7 +469,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const handleApprove = async (userId, profileData) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/approve/${userId}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/approve/${userId}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -491,7 +491,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const handleReject = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/reject/${userId}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/reject/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -504,7 +504,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const handlePromote = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/promote/${userId}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/promote/${userId}`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -517,7 +517,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
   const handleDemote = async (userId) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/demote/${userId}`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/demote/${userId}`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -602,6 +602,9 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
         </div>
         <div className="sidebar-menu">
           <p className="menu-label">Main Menu</p>
+          <div className={`menu-item ${activeTab === 'architecture' ? 'active' : ''}`} onClick={() => setActiveTab('architecture')}>
+            <span style={{ marginLeft: '10px' }}>System Architecture</span>
+          </div>
           <div className={`menu-item ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
             <span style={{ marginLeft: '10px' }}>Dashboard</span>
           </div>
@@ -762,6 +765,121 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
             </button>
           </div>
         </header>
+
+        {activeTab === 'architecture' && (
+          <div className="fade-in" style={{ paddingBottom: '3rem' }}>
+            <div style={{ 
+              display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '2rem', background: 'var(--bg-panel)', padding: '1.5rem', borderRadius: '16px', border: '1px solid var(--border-subtle)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' 
+            }}>
+              <div style={{ width: '45px', height: '45px', borderRadius: '12px', background: 'rgba(234, 235, 114, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(234, 235, 114, 0.2)', fontSize: '1.4rem' }}>
+                🏛️
+              </div>
+              <div>
+                <h3 style={{ color: 'var(--text-primary)', fontSize: '1.4rem', fontWeight: 700, letterSpacing: '0.5px', margin: 0 }}>
+                  System Architecture Dashboard
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '4px 0 0 0' }}>Interactive integration topology of the smart home agentic core</p>
+              </div>
+            </div>
+
+            {/* Architecture Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+              <div style={{ background: 'var(--bg-panel)', padding: '2rem', borderRadius: '24px', border: '1px solid var(--border-subtle)' }}>
+                <h4 style={{ color: '#FFF', fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>💻</span> React Web Application
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  Powers the responsive smart UI. Integrates WebSockets client for immediate state updates, WebRTC clients for direct peer-to-peer HeyGen virtual companion audio-video streaming, and live AMB82 smart camera relays.
+                </p>
+              </div>
+
+              <div style={{ background: 'var(--bg-panel)', padding: '2rem', borderRadius: '24px', border: '1px solid var(--border-subtle)' }}>
+                <h4 style={{ color: '#FFF', fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>⚙️</span> Node.js API Backend
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  Central server routing REST endpoints and Socket.io events. Drives asynchronous processing by offloading voice reasoning jobs to BullMQ queues backed by Redis, and stores schemas in MongoDB Atlas.
+                </p>
+              </div>
+
+              <div style={{ background: 'var(--bg-panel)', padding: '2rem', borderRadius: '24px', border: '1px solid var(--border-subtle)' }}>
+                <h4 style={{ color: '#FFF', fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>🧠</span> Central Agent Layer
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  Central cognitive orchestrator integrating 11 engines: Context Engine, Memory Engine, Routine Learning, Predictive Automation, Explainability, Polly speech, HeyGen avatar, and Proactive Decision schedulers.
+                </p>
+              </div>
+
+              <div style={{ background: 'var(--bg-panel)', padding: '2rem', borderRadius: '24px', border: '1px solid var(--border-subtle)' }}>
+                <h4 style={{ color: '#FFF', fontSize: '1.2rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>🌱</span> IoT & Hardware Gates
+                </h4>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  Manages physical ESP32 nodes via WebSockets/Socket.io, soil moisture and pump relay commands via Mosquitto MQTT broker, and live camera streaming via FFmpeg RTSP-to-WebRTC UDP socket transcoding.
+                </p>
+              </div>
+            </div>
+
+            {/* Stepper Cognitive Pipeline */}
+            <div style={{ background: 'var(--bg-panel)', padding: '2.5rem', borderRadius: '24px', border: '1px solid var(--border-subtle)', marginBottom: '3rem' }}>
+              <h4 style={{ color: '#FFF', fontSize: '1.3rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span>⚡</span> Decoupled Cognitive Process Stepper (Asynchronous Pipeline)
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.5rem', position: 'relative' }}>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(234, 235, 114, 0.1)', color: 'var(--accent-yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 'bold', margin: '0 auto 1rem auto' }}>1</div>
+                  <h5 style={{ color: '#FFF', fontSize: '0.95rem', marginBottom: '6px' }}>Speech Capturing</h5>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', lineHeight: '1.4' }}>Client records and transmits base64 audio stream</p>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(234, 235, 114, 0.1)', color: 'var(--accent-yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 'bold', margin: '0 auto 1rem auto' }}>2</div>
+                  <h5 style={{ color: '#FFF', fontSize: '0.95rem', marginBottom: '6px' }}>Whisper STT</h5>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', lineHeight: '1.4' }}>FastAPI model transcribes speech with language classification</p>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(234, 235, 114, 0.1)', color: 'var(--accent-yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 'bold', margin: '0 auto 1rem auto' }}>3</div>
+                  <h5 style={{ color: '#FFF', fontSize: '0.95rem', marginBottom: '6px' }}>Bedrock Converse</h5>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', lineHeight: '1.4' }}>Processes context/memory, determines intent, returns action plan</p>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(234, 235, 114, 0.1)', color: 'var(--accent-yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 'bold', margin: '0 auto 1rem auto' }}>4</div>
+                  <h5 style={{ color: '#FFF', fontSize: '0.95rem', marginBottom: '6px' }}>IoT Actuation</h5>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', lineHeight: '1.4' }}>Socket.io relays commands instantly to ESP32 switches</p>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
+                  <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: 'rgba(234, 235, 114, 0.1)', color: 'var(--accent-yellow)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 'bold', margin: '0 auto 1rem auto' }}>5</div>
+                  <h5 style={{ color: '#FFF', fontSize: '0.95rem', marginBottom: '6px' }}>Polly & HeyGen</h5>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', lineHeight: '1.4' }}>Synthesizes voice speech and updates video streams via WebRTC</p>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Cost Topology Cards */}
+            <div style={{ background: 'var(--bg-panel)', padding: '2rem', borderRadius: '24px', border: '1px solid var(--border-subtle)' }}>
+              <h4 style={{ color: '#FFF', fontSize: '1.2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>💰</span> Cloud AI Cost Telemetry Rates
+              </h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+                <div style={{ background: 'rgba(255,255,255,0.01)', padding: '1.2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Amazon Bedrock (Nova Lite)</span>
+                  <div style={{ color: '#FFF', fontWeight: 'bold', marginTop: '4px', fontSize: '1.05rem' }}>$0.06 / 1M Input Tokens</div>
+                  <div style={{ color: '#FFF', fontWeight: 'bold', fontSize: '1.05rem' }}>$0.24 / 1M Output Tokens</div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.01)', padding: '1.2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Amazon Bedrock (Nova Pro)</span>
+                  <div style={{ color: '#FFF', fontWeight: 'bold', marginTop: '4px', fontSize: '1.05rem' }}>$0.80 / 1M Input Tokens</div>
+                  <div style={{ color: '#FFF', fontWeight: 'bold', fontSize: '1.05rem' }}>$3.20 / 1M Output Tokens</div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.01)', padding: '1.2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Amazon Polly Neural Voice</span>
+                  <div style={{ color: '#FFF', fontWeight: 'bold', marginTop: '4px', fontSize: '1.05rem' }}>$16.00 / 1M Characters</div>
+                  <div style={{ color: '#FFF', fontWeight: 'bold', fontSize: '0.85rem', color: 'var(--accent-yellow)', marginTop: '4px' }}>Local Audio Caching active</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {activeTab === 'dashboard' && (
           <div className="fade-in">
@@ -1161,7 +1279,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
                                             e.stopPropagation();
                                             try {
                                               const token = localStorage.getItem('token');
-                                              const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}?forceEvaluate=true`, {
+                                              const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}?forceEvaluate=true`, {
                                                 headers: { 'Authorization': `Bearer ${token}` }
                                               });
                                               if (res.ok) {
@@ -1293,7 +1411,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
                                     e.preventDefault();
                                     try {
                                       const token = localStorage.getItem('token');
-                                      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}`, {
+                                      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}`, {
                                         method: 'PUT',
                                         headers: {
                                           'Content-Type': 'application/json',
@@ -1636,7 +1754,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
                                                 e.stopPropagation();
                                                 try {
                                                   const token = localStorage.getItem('token');
-                                                  const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}?forceEvaluate=true`, {
+                                                  const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}?forceEvaluate=true`, {
                                                     headers: { 'Authorization': `Bearer ${token}` }
                                                   });
                                                   if (res.ok) {
@@ -1768,7 +1886,7 @@ const OwnerDashboard = ({ homeInfo, NotificationsUI, toggleDevice, handleLogout,
                                         e.preventDefault();
                                         try {
                                           const token = localStorage.getItem('token');
-                                          const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}`, {
+                                          const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/family/context/profile/${selectedMemberContext._id}`, {
                                             method: 'PUT',
                                             headers: {
                                               'Content-Type': 'application/json',

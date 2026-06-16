@@ -39,7 +39,7 @@ const HomeSetup = ({ setHomeInfo }) => {
   const submitSetup = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/setup`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/home/setup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

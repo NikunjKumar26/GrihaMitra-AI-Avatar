@@ -4,7 +4,7 @@ import avatarFace from '../assets/avatar_face.png';
 
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:5000'
-  : 'https://sapno-ka-ghar-backend.onrender.com';
+  : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com';
 
 const GrihaMitra = ({ homeInfo, socket: parentSocket }) => {
   // Master Toggles & Config (cached in localStorage)

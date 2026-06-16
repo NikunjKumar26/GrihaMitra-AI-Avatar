@@ -19,18 +19,25 @@ const QueueMetrics = require('../models/QueueMetrics');
 // Global event bus to bridge HTTP requests with background worker completions
 const jobEvents = new EventEmitter();
 
-const redisConfig = {
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  port: parseInt(process.env.REDIS_PORT) || 6379,
-  maxRetriesPerRequest: null // Required by BullMQ
-};
-
 let connection = null;
 let isRedisOffline = false;
 
 // 1. Initialize Redis connection
 try {
-  connection = new Redis(redisConfig);
+  const redisOptions = {
+    maxRetriesPerRequest: null // Required by BullMQ
+  };
+
+  if (process.env.REDIS_URL) {
+    connection = new Redis(process.env.REDIS_URL, redisOptions);
+  } else {
+    connection = new Redis({
+      host: process.env.REDIS_HOST || '127.0.0.1',
+      port: parseInt(process.env.REDIS_PORT) || 6379,
+      ...redisOptions
+    });
+  }
+
   connection.on('error', (err) => {
     if (process.env.NODE_ENV === 'production') {
       console.error('CRITICAL [BullMQ Config] Redis connection failed in PRODUCTION mode. Blocking initialization:', err.message);

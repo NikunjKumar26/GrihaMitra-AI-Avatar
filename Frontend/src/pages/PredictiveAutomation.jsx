@@ -17,7 +17,7 @@ const PredictiveAutomation = ({ homeInfo }) => {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/automation-dashboard`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/automation-dashboard`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const resData = await res.json();
@@ -36,7 +36,7 @@ const PredictiveAutomation = ({ homeInfo }) => {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/feedback`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/feedback`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ const PredictiveAutomation = ({ homeInfo }) => {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/evaluate`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/evaluate`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -82,7 +82,7 @@ const PredictiveAutomation = ({ homeInfo }) => {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/toggle-room-automation`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/toggle-room-automation`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ const PredictiveAutomation = ({ homeInfo }) => {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/toggle-member-automation`, {
+      const res = await fetch(`${window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : import.meta.env.VITE_API_URL || 'https://sapno-ka-ghar-backend.onrender.com'}/api/learning/toggle-member-automation`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
