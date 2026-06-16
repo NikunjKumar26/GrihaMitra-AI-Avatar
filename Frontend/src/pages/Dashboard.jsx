@@ -48,6 +48,13 @@ const Dashboard = () => {
       setLoading(false);
       
       if (!res.ok) {
+        if (res.status === 401) {
+          // Token expired or invalid: Clear session and redirect to login
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          navigate('/auth');
+          return;
+        }
         if(res.status === 403) {
           if (data.error === 'Blocked by Owner') {
             setHomeInfo('BLOCKED');
