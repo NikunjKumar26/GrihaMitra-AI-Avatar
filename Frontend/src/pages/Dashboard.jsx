@@ -168,6 +168,40 @@ const Dashboard = () => {
 
   if (loading) return <div style={{ color: 'white', textAlign: 'center', marginTop: '20vh' }}>Loading...</div>;
 
+  if (error) {
+    return (
+      <div className="fade-in" style={{ 
+        minHeight: '100vh', width: '100vw', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#080808', position: 'relative' 
+      }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0, background: 'radial-gradient(circle, rgba(255, 50, 50, 0.05) 0%, rgba(0,0,0,0) 50%)' }}></div>
+        <div style={{ 
+          position: 'relative', zIndex: 10, background: 'rgba(20, 20, 20, 0.7)', backdropFilter: 'blur(15px)', WebkitBackdropFilter: 'blur(15px)', 
+          border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px', padding: '3rem', textAlign: 'center', maxWidth: '420px', boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+        }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
+          <h2 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontSize: '1.6rem', fontWeight: 600 }}>Connection Error</h2>
+          <p style={{ color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '2rem' }}>
+            {error || 'Unable to connect to the smart home backend. Please check your network or try again.'}
+          </p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <button 
+              onClick={() => { setError(''); setLoading(true); fetchHome(); }}
+              style={{ background: '#EAEB72', color: '#000', padding: '12px 24px', borderRadius: '12px', border: 'none', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s' }}
+            >
+              Retry Connection
+            </button>
+            <button 
+              onClick={handleLogout} 
+              style={{ background: 'rgba(255,255,255,0.05)', color: '#FFF', padding: '12px 24px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s' }}
+            >
+              Log Out
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Render Flows based on User and Home existence
   if (!homeInfo && user.role === 'Owner') {
     return <HomeSetup setHomeInfo={setHomeInfo} />;

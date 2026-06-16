@@ -4,10 +4,18 @@ import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 
+import { isTokenExpired } from './utils/auth';
+
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/auth" />;
+  if (!token || isTokenExpired(token)) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    return <Navigate to="/auth" replace />;
+  }
+  return children;
 };
+
 
 function App() {
   return (

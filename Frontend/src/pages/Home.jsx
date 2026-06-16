@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { isTokenExpired } from '../utils/auth';
 import './Home.css';
 
 const Home = () => {
@@ -234,9 +235,11 @@ const Home = () => {
 
   const handleDashboardRedirect = () => {
     const token = localStorage.getItem('token');
-    if (token) {
+    if (token && !isTokenExpired(token)) {
       navigate('/dashboard');
     } else {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       navigate('/auth');
     }
   };
